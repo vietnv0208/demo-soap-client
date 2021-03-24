@@ -32,8 +32,6 @@ public class GbocServiceImpl {
                     "http://localhost:8088/gboc");
 
             List<Handler> handlerChain=new ArrayList<>();
-//            handlerChain.add(new WebServiceHandler("Username","order"));
-//            handlerChain.add(new WebServiceHandler("Password","order"));
             handlerChain.add(new AuthorHeaderHandler("UsernameToken-32ce50e8-4a5d-4040-af71-c3428d92daa7","order","order"));
 
             Binding binding = bindingProvider.getBinding();
@@ -70,7 +68,7 @@ public class GbocServiceImpl {
         return null;
     }
 
-    public WsResponseCrmApp getReportListGroupKpi() throws Exception_Exception {
+    public WsResponseCrmApp getReportListGroupKpi() {
         try {
             return getService().getReportListGroupKpi();
         } catch (Exception e) {
@@ -79,7 +77,7 @@ public class GbocServiceImpl {
         return null;
     }
 
-    public WsResponseCrmApp getReportStaffInfoSME(InputReportStaffSME inputReportStaffSME) throws Exception_Exception {
+    public WsResponseCrmApp getReportStaffInfoSME(InputReportStaffSME inputReportStaffSME) {
         try {
             return getService().getReportStaffInfoSME(inputReportStaffSME);
         } catch (Exception e) {

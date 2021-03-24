@@ -18,7 +18,7 @@ public class APIBocController {
     public WsResponseCrmApp getProgramsSME(){
         try {
             return gbocService.getProgramsSME();
-        } catch (Exception_Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -27,7 +27,7 @@ public class APIBocController {
     public WsResponseCrmApp getReportListGroupKpi(){
         try {
             return gbocService.getReportListGroupKpi();
-        } catch (Exception_Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
