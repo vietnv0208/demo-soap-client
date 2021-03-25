@@ -13,13 +13,13 @@ import java.util.TreeSet;
 
 public class AuthorHeaderHandler implements SOAPHandler<SOAPMessageContext> {
 
-    private String id;
-    private String user;
+    private String tocken;
+    private String username;
     private String password;
 
-    public AuthorHeaderHandler(String id, String user, String password) {
-        this.id = id;
-        this.user = user;
+    public AuthorHeaderHandler(String tocken, String username, String password) {
+        this.tocken = tocken;
+        this.username = username;
         this.password = password;
     }
 
@@ -42,11 +42,11 @@ public class AuthorHeaderHandler implements SOAPHandler<SOAPMessageContext> {
                 SOAPElement usernameToken =
                         security.addChildElement("UsernameToken", "wsse");
                 usernameToken.addAttribute(new QName("xmlns:wsu"), "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd");
-                usernameToken.addAttribute(new QName("wsu:Id"), id);
+                usernameToken.addAttribute(new QName("wsu:Id"), tocken);
 
                 SOAPElement usernameElement =
                         usernameToken.addChildElement("Username", "wsse");
-                usernameElement.addTextNode(user);
+                usernameElement.addTextNode(username);
 
                 SOAPElement passwordElement =
                         usernameToken.addChildElement("Password", "wsse");

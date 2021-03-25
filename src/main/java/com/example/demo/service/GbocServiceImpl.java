@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.service.request.AuthorHeaderHandler;
 import com.viettel.bccs.boc2.service.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.xml.ws.Binding;
@@ -16,6 +17,15 @@ public class GbocServiceImpl {
 
     private static Boc2CrmAppService port;
 
+    @Value("${gboc.url}")
+    private String url;
+    @Value("${gboc.token}")
+    private String token;
+    @Value("${gboc.username}")
+    private String username;
+    @Value("${gboc.password}")
+    private String password;
+
     private Boc2CrmAppService getService() {
         if (port == null) {
 
@@ -28,16 +38,13 @@ public class GbocServiceImpl {
             BindingProvider bindingProvider = (BindingProvider) boc2CrmAppService;
             bindingProvider.getRequestContext().put(
                     BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-//                    "http://10.58.71.144:8094/BOC2Services/boc2/Boc2CrmAppService");
-                    "http://localhost:8088/gboc");
+                    url);
 
-            List<Handler> handlerChain=new ArrayList<>();
-            handlerChain.add(new AuthorHeaderHandler("UsernameToken-32ce50e8-4a5d-4040-af71-c3428d92daa7","order","order"));
+            List<Handler> handlerChain = new ArrayList<>();
+            handlerChain.add(new AuthorHeaderHandler(token, username, password));
 
             Binding binding = bindingProvider.getBinding();
             binding.setHandlerChain(handlerChain);
-
-
             port = boc2CrmAppService;
         }
 
@@ -68,9 +75,13 @@ public class GbocServiceImpl {
         return null;
     }
 
-    public WsResponseCrmApp getReportListGroupKpi() {
+    public List<ReportGroupKpi> getReportListGroupKpi() {
         try {
-            return getService().getReportListGroupKpi();
+            WsResponseCrmApp responseCrmApp= getService().getReportListGroupKpi();
+            if(responseCrmApp!=null){
+                return responseCrmApp.getListGroupKpi();
+            }
+            return new ArrayList<>();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -104,9 +115,13 @@ public class GbocServiceImpl {
         return null;
     }
 
-    public WsResponseCrmApp getProgramsSME() throws Exception_Exception {
+    public List<ProgramBO> getProgramsSME() throws Exception_Exception {
         try {
-            return getService().getProgramsSME();
+            WsResponseCrmApp responseCrmApp= getService().getProgramsSME();
+            if(responseCrmApp!=null){
+                return responseCrmApp.getListProgram();
+            }
+            return new ArrayList<>();
         } catch (Exception e) {
             e.printStackTrace();
         }
